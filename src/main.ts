@@ -1,38 +1,29 @@
 #!/usr/bin/env node
 
 /**
- * This is a sample HTTP server.
- * Replace this with your implementation.
+ * This is a LiveJoy server.
  */
 
 import 'dotenv/config'
-import { createServer, IncomingMessage, ServerResponse } from 'http'
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
 import { Config } from './config.js'
+import path from 'path';
+import express from 'express';
 
-const nodePath = resolve(process.argv[1])
-const modulePath = resolve(fileURLToPath(import.meta.url))
-const isCLI = nodePath === modulePath
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
 export default function main(port: number = Config.port) {
-  const requestListener = (request: IncomingMessage, response: ServerResponse) => {
-    response.setHeader('content-type', 'text/plain;charset=utf8')
-    response.writeHead(200, 'OK')
-    response.end('Olá, Hola, Hello!')
-  }
+  const app = express();
 
-  const server = createServer(requestListener)
+  app.use(express.static(path.join(__dirname, '..', 'public')))
 
-  if (isCLI) {
-    server.listen(port)
-    // eslint-disable-next-line no-console
-    console.log(`Listening on port: ${port}`)
-  }
+  app.get('/', (req, res) => {
+    return res.send('oh hii');
+  })
 
-  return server
+
+  app.listen(port, () => console.log('Running on port: ', port));
 }
 
-if (isCLI) {
-  main()
-}
+main();
+
