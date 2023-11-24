@@ -1,4 +1,4 @@
-# Live Joy
+# LiveJoy
 
 Project bootstrapped using [NodeJS Starter ToolKit](https://github.com/vitorsalgado/create-nodejs-ts).  
 Visit the repository for more details.
